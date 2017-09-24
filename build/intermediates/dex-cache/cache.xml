@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/patrick/Documents/andyv/junimojia/junimoji/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="81f44bc88cf95c5aec541a5bba148f7162b60280">
+        <dex dex="/Users/patrick/Documents/andyv/junimojia/app/build/intermediates/pre-dexed/debug/classes_8df03102acaadc93f91813e7879e0be84fe8e1e0.jar" />
+    </item>
+
+</items>
