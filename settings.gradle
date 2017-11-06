@@ -1,1 +1,2 @@
-include ':app', ':junimoji'
+include ':app'
+include ':junimoji'
