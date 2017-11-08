@@ -101,12 +101,12 @@ public class KeyboardService {
     public KeyboardService(Context context, InputMethodService inputMethodService) {
         this.context = context;
         this.inputMethodService = inputMethodService;
+        packDataList = new ArrayList<>();
+        packAdapter = new PackAdapter(returnThis(), packDataList);
     }
 
     public void setPackView(RecyclerView packView) {
         this.packView = packView;
-        packDataList = new ArrayList<>();
-        packAdapter = new PackAdapter(returnThis(), packDataList);
         this.packView.setAdapter(packAdapter);
     }
 
@@ -229,8 +229,7 @@ public class KeyboardService {
             }
         }
 
-        //if (isCommitContentSupported(editorInfo, stickerData.mime)) {
-        if (isCommitContentSupported(editorInfo)) {
+        if (isCommitContentSupported(editorInfo, stickerData.mime)) {
             String description = "Images";
             InputContentInfoCompat icic;
             if (stickerData.url == null) {
@@ -365,7 +364,8 @@ public class KeyboardService {
         }
     }
 
-    private boolean isCommitContentSupported(@Nullable EditorInfo editorInfo, @NonNull String mimeType) {
+    private boolean isCommitContentSupported(
+            @Nullable final EditorInfo editorInfo, @NonNull final String stickerMimeType) {
         if (editorInfo == null) {
             return false;
         }
@@ -381,37 +381,19 @@ public class KeyboardService {
 
         final String[] supportedMimeTypes = EditorInfoCompat.getContentMimeTypes(editorInfo);
 //        Toast.makeText(this, "size: " + supportedMimeTypes.length, Toast.LENGTH_SHORT).show();
-        for (String supportedMimeType : supportedMimeTypes) {
-            if (ClipDescription.compareMimeTypes(mimeType, supportedMimeType)) {
-                return true;
-            }
-        }
-        return false;
+        return isMimeTypesCompatible(supportedMimeTypes, stickerMimeType);
     }
 
-    private boolean isCommitContentSupported(@Nullable EditorInfo editorInfo) {
-        if (editorInfo == null) {
-            return false;
-        }
-
-        final InputConnection ic = inputMethodService.getCurrentInputConnection();
-        if (ic == null) {
-            return false;
-        }
-
-        if (!validatePackageName(editorInfo)) {
-            return false;
-        }
-
-        final String[] supportedMimeTypes = EditorInfoCompat.getContentMimeTypes(editorInfo);
-//        Toast.makeText(this, "size: " + supportedMimeTypes.length, Toast.LENGTH_SHORT).show();
-        return isMimeTypesCompatible(supportedMimeTypes);
+    public static boolean isMimeTypesCompatible(@NonNull final String[] mimeTypes) {
+        // NOTE: let inputContent handle it if the assumption is wrong
+        return isMimeTypesCompatible(mimeTypes, MIME_TYPE_PNG);
     }
 
-    public static boolean isMimeTypesCompatible(final String[] mimeTypes) {
+    public static boolean isMimeTypesCompatible(
+            final String[] mimeTypes, final String stickerMimeType) {
         for (String mimeType : mimeTypes) {
             if (ClipDescription.compareMimeTypes(MIME_TYPE_GIF, mimeType)
-                    || ClipDescription.compareMimeTypes(MIME_TYPE_PNG, mimeType)) {
+                    || ClipDescription.compareMimeTypes(stickerMimeType, mimeType)) {
                 return true;
             }
         }
