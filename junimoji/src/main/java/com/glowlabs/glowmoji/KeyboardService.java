@@ -231,17 +231,16 @@ public class KeyboardService {
 
         if (isCommitContentSupported(editorInfo, stickerData.mime)) {
             String description = "Images";
-            InputContentInfoCompat icic;
+            final InputContentInfoCompat inputContentInfo;
             if (stickerData.url == null) {
-                icic = new InputContentInfoCompat(contentUri, new ClipDescription(
+                inputContentInfo = new InputContentInfoCompat(contentUri, new ClipDescription(
                         description, new String[]{stickerData.mime, MIME_TYPE_GIF}), null);
             } else {
-                icic = new InputContentInfoCompat(contentUri, new ClipDescription(
+                inputContentInfo = new InputContentInfoCompat(contentUri, new ClipDescription(
                         description,
                         new String[]{stickerData.mime, MIME_TYPE_GIF}),
                         Uri.parse(stickerData.url));
             }
-            final InputContentInfoCompat inputContentInfoCompat = icic;
 //            if ("com.facebook.orca".equals(getAppForShare(stickerData).packageName)) {
 //                if (!stickerToShare(stickerData)) {
 //                    Toast.makeText(this, "Application does not support stic   kers", Toast.LENGTH_SHORT).show();
@@ -249,8 +248,8 @@ public class KeyboardService {
 //            } else {
             InputConnectionCompat.commitContent(
                     inputMethodService.getCurrentInputConnection(),
-                    inputMethodService.getCurrentInputEditorInfo(),
-                    inputContentInfoCompat, flag, null);
+                    editorInfo,
+                    inputContentInfo, flag, null);
 //            }
             // events
             Event used = new Event("_ROKO.Stickers. Used");
