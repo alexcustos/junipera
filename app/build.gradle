@@ -23,6 +23,9 @@ android {
             path 'jni/Android.mk'
         }
     }
+    lintOptions {
+        disable 'MissingTranslation'
+    }
     aaptOptions {
         noCompress "dict"
     }
