@@ -92,12 +92,6 @@
     <fraction name="config_emoji_keyboard_key_letter_size">68%p</fraction>
     <integer name="config_emoji_keyboard_max_page_key_count">21</integer>
 
-    <!-- Rokomoji keyboard -->
-    <fraction name="config_rokomoji_keyboard_key_width">16.6666%p</fraction>
-    <fraction name="config_rokomoji_keyboard_row_height">33%p</fraction>
-    <fraction name="config_rokomoji_keyboard_key_letter_size">68%p</fraction>
-    <integer name="config_rokomoji_keyboard_max_page_key_count">18</integer>
-
     <!-- Key codes of hardware keys that can be used to toggle the Emoji layout.
          Each array defines a comma-separated tuple containing:
          1. Key code constant from android.view.KeyEvent

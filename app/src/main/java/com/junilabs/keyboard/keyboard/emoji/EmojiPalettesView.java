@@ -410,7 +410,10 @@ public final class EmojiPalettesView extends LinearLayout implements OnTabChange
         if (deleteIconResId != 0) {
             mDeleteKey.setImageResource(deleteIconResId);
         }*/
-        mShareKey.setImageResource(R.drawable.ic_share_normal_24dp);
+        final int shareIconResId = iconSet.getIconResourceId(KeyboardIconsSet.NAME_SHARE_KEY);
+        if (shareIconResId != 0) {
+            mShareKey.setImageResource(shareIconResId);
+        }
         final int spacebarResId = iconSet.getIconResourceId(KeyboardIconsSet.NAME_SPACE_KEY);
         if (spacebarResId != 0) {
             // TODO: Remove this workaround to place the spacebar icon.

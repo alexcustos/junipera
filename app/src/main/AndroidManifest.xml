@@ -39,10 +39,6 @@
             android:allowBackup="true"
             android:defaultToDeviceProtectedStorage="true"
             android:directBootAware="true">
-        <!-- API key of your ROKO Mobi portal application -->
-        <meta-data
-            android:name="ROKOMobiAPIToken"
-            android:value="H8psjj6SreefhBkFAMtxJhkjkMtse8u4o1pvSAdrzYs" />
 
         <!-- Services -->
         <service android:name=".latin.LatinIME"

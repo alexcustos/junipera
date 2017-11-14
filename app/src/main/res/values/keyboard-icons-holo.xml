@@ -23,6 +23,7 @@
         <!-- Keyboard icons -->
         <item name="iconShiftKey">@drawable/sym_keyboard_shift_holo_dark</item>
         <item name="iconDeleteKey">@drawable/sym_keyboard_delete_holo_dark</item>
+        <item name="iconShareKey">@drawable/ic_share_holo_dark</item>
         <item name="iconSettingsKey">@drawable/sym_keyboard_settings_holo_dark</item>
         <item name="iconSpaceKey">@null</item>
         <item name="iconEnterKey">@drawable/sym_keyboard_return_holo_dark</item>

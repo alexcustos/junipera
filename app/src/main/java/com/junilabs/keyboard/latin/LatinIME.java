@@ -170,7 +170,7 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
 
     public final UIHandler mHandler = new UIHandler(this);
 
-    private KeyboardService mKeyboardService;
+    private final KeyboardService mKeyboardService;
 
     public static final class UIHandler extends LeakGuardHandlerWrapper<LatinIME> {
         private static final int MSG_UPDATE_SHIFT_STATE = 0;
@@ -558,6 +558,9 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
         mIsHardwareAcceleratedDrawingEnabled =
                 InputMethodServiceCompatUtils.enableHardwareAcceleration(this);
         Log.i(TAG, "Hardware accelerated drawing: " + mIsHardwareAcceleratedDrawingEnabled);
+
+        KeyboardService.init(this);
+        mKeyboardService = KeyboardService.getInstance();
     }
 
     @Override
@@ -601,7 +604,6 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
 
         StatsUtils.onCreate(mSettings.getCurrent(), mRichImm);
 
-        mKeyboardService = new KeyboardService(this, this);
         mKeyboardService.onCreate();
     }
 

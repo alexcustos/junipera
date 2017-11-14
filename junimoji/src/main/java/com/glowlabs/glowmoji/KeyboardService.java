@@ -6,7 +6,6 @@ import android.content.ClipDescription;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -46,15 +45,7 @@ import com.glowlabs.glowmoji.stickers.MarginDecoration;
 import com.glowlabs.glowmoji.stickers.StickerAdapter;
 import com.glowlabs.glowmoji.stickers.StickerData;
 import com.glowlabs.glowmoji.stickers.Stickers;
-import com.rokolabs.sdk.RokoMobi;
-import com.rokolabs.sdk.analytics.Event;
-import com.rokolabs.sdk.analytics.RokoLogger;
-import com.rokolabs.sdk.links.ResponseCreateLink;
-import com.rokolabs.sdk.links.RokoLinks;
 import com.rokolabs.sdk.tools.ThreadUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,16 +84,31 @@ public class KeyboardService {
     private RecyclerView packView;
     private RecyclerView stickerView;
     private int lastTab = 0;
-    private String deeplink;
+    private String deeplink = "http://bit.ly/2vzi48Q";
     private String deeplinkContentId;
     private long startTime = 0;
     private EditorInfo editorInfo;
+    private static KeyboardService instance;
 
-    public KeyboardService(Context context, InputMethodService inputMethodService) {
+    private KeyboardService(Context context, InputMethodService inputMethodService) {
         this.context = context;
         this.inputMethodService = inputMethodService;
         packDataList = new ArrayList<>();
         packAdapter = new PackAdapter(returnThis(), packDataList);
+    }
+
+    public static KeyboardService getInstance() {
+        if (instance == null) {
+            throw new NullPointerException("KeyboardService must be initialized");
+        }
+        return instance;
+    }
+
+    public static void init(InputMethodService inputMethodService) {
+        if (instance != null) {
+            throw new IllegalStateException("KeyboardService has been already initialized");
+        }
+        instance = new KeyboardService(inputMethodService, inputMethodService);
     }
 
     public void setPackView(RecyclerView packView) {
@@ -162,12 +168,12 @@ public class KeyboardService {
     }
 
     private void getStickers() {
-        stickers.loadStickers(new Stickers.CallbackStickersLoaded() {
+        /*stickers.loadStickers(new Stickers.CallbackStickersLoaded() {
             @Override
             public void pack() {
                 showStickers();
             }
-        });
+        });*/
     }
 
     public void switchBoard(int tab) {
@@ -252,7 +258,7 @@ public class KeyboardService {
                     inputContentInfo, flag, null);
 //            }
             // events
-            Event used = new Event("_ROKO.Stickers. Used");
+            /*Event used = new Event("_ROKO.Stickers. Used");
             used.set("photoType", "New");
             used.set("stickerId", stickerData.objectId);
             used.set("stickerPackId", stickerData.packId);
@@ -267,7 +273,7 @@ public class KeyboardService {
             placed.set("stickerPackId", stickerData.packId);
             placed.set("stickerPackName", stickerData.packName);
             placed.set("positionInPack", position + 1);
-            RokoLogger.addEvents(placed);
+            RokoLogger.addEvents(placed);*/
         } else if (!stickerToShare(stickerData)) {
 
             Toast.makeText(context, "Application does not support stickers", Toast.LENGTH_SHORT).show();
@@ -322,7 +328,7 @@ public class KeyboardService {
 
         if (deeplink != null) {
             ic.commitText(DEEPLINK_TEXT + " " + deeplink, 0);
-        } else {
+        }/* else {
             // deeplink
             JSONObject params = new JSONObject();
             try {
@@ -345,22 +351,22 @@ public class KeyboardService {
                 e.printStackTrace();
             }
         }
-        RokoLogger.addEvents(new Event("_ROKO.Stickers.Shared").set("contentId", deeplinkContentId));
+        RokoLogger.addEvents(new Event("_ROKO.Stickers.Shared").set("contentId", deeplinkContentId));*/
     }
 
     public void onStartInputView(EditorInfo info, boolean restarting) {
-        startTime = System.currentTimeMillis();
+        /*startTime = System.currentTimeMillis();
         editorInfo = info;
-        RokoLogger.addEvents(new Event("_ROKO.Stickers.Entered"));
+        RokoLogger.addEvents(new Event("_ROKO.Stickers.Entered"));*/
         getStickers();
 
     }
 
     public void onFinishInputView(boolean finishingInput) {
-        if (startTime > 0) {
+        /*if (startTime > 0) {
             long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
             RokoLogger.addEvents(new Event("_ROKO.Stickers.Close").set("Time spent", timeSpent));
-        }
+        }*/
     }
 
     private boolean isCommitContentSupported(
@@ -451,15 +457,15 @@ public class KeyboardService {
     public void onCreate() {
         //super.onCreate();
 
-        SharedPreferences RokoMobiPreferences = context.getSharedPreferences("_RokoMobi", Context.MODE_PRIVATE);
-        RokoMobiPreferences.edit().remove("apiUrl").apply();
-        RokoMobiPreferences.edit().remove("apiToken").apply();
+        /*SharedPreferences rokoMobiPreferences = context.getSharedPreferences("_RokoMobi", Context.MODE_PRIVATE);
+        rokoMobiPreferences.edit().remove("apiUrl").apply();
+        rokoMobiPreferences.edit().remove("apiToken").apply();*/
 
         createDirs(context);
 
         deeplinkContentId = UUID.randomUUID().toString();
         stickers = new Stickers(context);
-        RokoMobi.start(context, new RokoMobi.CallbackStart() {
+        /*RokoMobi.start(context, new RokoMobi.CallbackStart() {
             @Override
             public void start() {
                 // deeplink
@@ -486,7 +492,8 @@ public class KeyboardService {
                 // sticker
                 getStickers();
             }
-        });
+        });*/
+        authority = context.getPackageName() + ".rokomoji";
     }
 
     private Boolean stickerToShare(@NonNull StickerData stickerData) {
@@ -563,7 +570,5 @@ public class KeyboardService {
             return shared;
         }
     }
-
-
 }
 

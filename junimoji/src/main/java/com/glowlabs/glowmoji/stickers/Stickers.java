@@ -310,13 +310,13 @@ public class Stickers {
         final String PACK_ICON="pack_on.png";
         String curAssets="";
 
-        try {
+        /*try {
             in = lContext.getAssets().open(PACK_APP+"/"+PACK_ICON);
             curAssets=PACK_APP;
             packList = lContext.getAssets().list(curAssets);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         if(in==null) {
             try {
                 in = lContext.getAssets().open(PACK_LIB+"/"+PACK_ICON);
