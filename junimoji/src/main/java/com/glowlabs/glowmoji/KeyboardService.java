@@ -168,12 +168,12 @@ public class KeyboardService {
     }
 
     private void getStickers() {
-        /*stickers.loadStickers(new Stickers.CallbackStickersLoaded() {
+        stickers.loadStickers(new Stickers.CallbackStickersLoaded() {
             @Override
             public void pack() {
                 showStickers();
             }
-        });*/
+        });
     }
 
     public void switchBoard(int tab) {
@@ -278,7 +278,7 @@ public class KeyboardService {
 
             Toast.makeText(context, "Application does not support stickers", Toast.LENGTH_SHORT).show();
         }
-        getStickers();
+        //getStickers();
     }
 
     private Boolean stickerToShare(@NonNull StickerData stickerData, Uri contentUri) {
@@ -357,8 +357,8 @@ public class KeyboardService {
     public void onStartInputView(EditorInfo info, boolean restarting) {
         /*startTime = System.currentTimeMillis();
         editorInfo = info;
-        RokoLogger.addEvents(new Event("_ROKO.Stickers.Entered"));*/
-        getStickers();
+        RokoLogger.addEvents(new Event("_ROKO.Stickers.Entered"));
+        getStickers();*/
 
     }
 
